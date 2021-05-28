@@ -1,15 +1,12 @@
-import client from "../client";
 import * as bcrypt from "bcrypt";
+import { Resolvers } from "../../types";
 
-export default {
-  Query: {
-    seeUser: (_, { id }) => client.user.findUnique({ where: { id } }),
-  },
-
+const resolvers: Resolvers = {
   Mutation: {
     createAccount: async (
       _,
-      { username, email, name, location, password, avatarURL, githubUsername }
+      { username, email, name, location, password, avatarURL, githubUsername },
+      { client }
     ) => {
       if (!password) {
         return {
@@ -62,3 +59,5 @@ export default {
     },
   },
 };
+
+export default resolvers;

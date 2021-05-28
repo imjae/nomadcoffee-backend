@@ -6,9 +6,9 @@ const loadedResolovers = loadFilesSync(
   `${__dirname}/**/*.resolvers.ts`
 );
 
-const typeDefs = mergeTypeDefs(loadedTypes);
-const resolvers = mergeResolvers(loadedResolovers);
+export const typeDefs = mergeTypeDefs(loadedTypes);
+export const resolvers = mergeResolvers(loadedResolovers);
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+// const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-export default schema;
+// export default schema;
