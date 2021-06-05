@@ -1,6 +1,7 @@
 import { createWriteStream } from "fs";
 import * as bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils";
+import { uploadToS3 } from "../../shared/shared.utils";
 
 export default {
   Mutation: {
@@ -10,7 +11,10 @@ export default {
         { username, email, name, location, password: newPassword, avatarURL, githubUsername },
         { loggedInUser, client }
       ) => {
-        let avatarUrl = null;
+        let avatar = null;
+        if (avatarURL) {
+          avatar = await uploadToS3(avatarURL, loggedInUser.id, "avatars");
+        }
         // if (avatar) {
           // avatarUrl = await uploadToS3(avatar, loggedInUser.id, "avatars");
           // const { filename, createReadStream } = await avatar;
@@ -38,7 +42,7 @@ export default {
             name,
             location,
             ...(uglyPassword && { password: uglyPassword }),
-            ...(avatarURL && { avatar: avatarURL }),
+            ...(avatar && { avatarURL: avatar, }),
             githubUsername,
           },
         });

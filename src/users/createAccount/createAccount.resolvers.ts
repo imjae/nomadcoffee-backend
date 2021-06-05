@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import { uploadToS3 } from "../../shared/shared.utils";
 import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
@@ -6,8 +7,13 @@ const resolvers: Resolvers = {
     createAccount: async (
       _,
       { username, email, name, location, password, avatarURL, githubUsername },
-      { client }
+      { client, loggedInUser }
     ) => {
+      let avatar = null;
+      if (avatarURL) {
+        avatar = await uploadToS3(avatarURL, loggedInUser.id, "avatars");
+      }
+
       if (!password) {
         return {
           ok: false,
@@ -41,7 +47,7 @@ const resolvers: Resolvers = {
           name,
           location,
           password: uglyPassword,
-          avatarURL,
+          avatarURL: avatar,
           githubUsername,
         },
       });
