@@ -11,6 +11,7 @@ const apollo = new ApolloServer({
   typeDefs,
   resolvers,
   uploads: false,
+  playground: true,
   context: async (ctx) => {
     if (ctx.req) {
       return {
