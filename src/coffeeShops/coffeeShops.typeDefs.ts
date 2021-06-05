@@ -21,7 +21,7 @@ export default gql`
 
   type CoffeeShopPhoto {
     id: Int!
-    url: String!
+    url: Upload!
     shop: CoffeeShop
   }
 `;

@@ -1,6 +1,6 @@
 require("dotenv").config();
-import * as http from "http";
-import * as express from "express";
+const http = require('http');
+const express = require('express');
 import { ApolloServer } from "apollo-server-express";
 import client from "./client";
 import { typeDefs, resolvers } from "./schema";
